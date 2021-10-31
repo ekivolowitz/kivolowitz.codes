@@ -31,14 +31,23 @@ h2 {
 
 h3 {
     color: var(--secondary-font-color);
+    margin-bottom: 0px;
+    margin-top: 0px;
+}
+
+hr {
+    color: var(--secondary-font-color);
+    width: 100%;
 }
 
 p {
     color: var(--header-font-color);
     font-size: 1em;
+    margin-top: 0px;
 }
 
 a {
+    font-size: 1em;
     text-decoration: none;
 }
 
@@ -55,28 +64,27 @@ a:hover {
 }
 
 .arrow {
-    margin-left: auto;
-    margin-right: auto;
+    text-align: center;
+    padding-top: auto;
+    padding-bottom: auto;
     font-size: 3em;
-    height: 100px;
 }
 
 .container {
     display: grid;
     grid-template-columns: 1fr 1fr;
+    height: 100vh;
 }
 
-.content-row {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-evenly;
-    padding-left: 10em;
-    padding-right: 10em;
+.content-section-start {
+    display: grid;
+    grid-template-rows: 5fr 1.1fr;
 }
 
-.content-row > h1 {
-    margin-left: auto;
-    margin-right: auto;
+.content-section-middle {
+    display: grid;
+    grid-template-rows: 1fr 5fr 1fr;
+    height: 100vh;
 }
 
 .contact-container {
@@ -89,6 +97,7 @@ a:hover {
     display: flex;
     flex-direction: column;
     width: 200px;
+    margin-right: 30px;
 }
 
 .contact-list > a {
@@ -96,10 +105,26 @@ a:hover {
     padding-bottom: 5px;
 }
 
+.fixed-height {
+    height: 200px;
+    overflow-y: scroll;
+    overflow-x: hidden;
+}
+
+.right {
+    padding-left: 80px;
+    padding-right: 80px;
+}
+
+.left {
+    float: right;
+}
+
 #my-picture {
     background-image: url('../imgs/evan.jpg');
     background-position: center center;
     background-size: cover;
+    height: 100vh;
 }
 
 #programming {
@@ -107,13 +132,4 @@ a:hover {
     background-image: url('../imgs/computer.png');
     background-position: center center;
     background-size: cover;
-
-}
-
-.right {
-    float: left;
-}
-
-.left {
-    float: right;
 }
