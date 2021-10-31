@@ -1,0 +1,119 @@
+@import url('variables.css');
+@import url("https://fonts.googleapis.com/css?family=Montserrat:400,600");
+
+
+html {
+    scroll-snap-type: y mandatory;
+    overflow-x: hidden;
+    scroll-behavior: smooth;
+}
+
+section {
+    height: 100vh;
+    width: 100vw;
+    scroll-snap-align: start;
+    font-family: Montserrat;
+}
+
+body {
+    background-color: var(--bg-color);
+    margin: 0;
+}
+
+h1 {
+    color: var(--header-font-color);
+    font-size: 4em;
+} 
+
+h2 {
+    color: var(--header-font-color);
+} 
+
+h3 {
+    color: var(--secondary-font-color);
+}
+
+p {
+    color: var(--header-font-color);
+    font-size: 1em;
+}
+
+a {
+    text-decoration: none;
+}
+
+a:link {
+    color: var(--header-font-color);
+}
+
+a:visited {
+    color: var(--header-font-color);
+}
+
+a:hover {
+    color: var(--link-hover);
+}
+
+.arrow {
+    margin-left: auto;
+    margin-right: auto;
+    font-size: 3em;
+    height: 100px;
+}
+
+.container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+}
+
+.content-row {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    padding-left: 10em;
+    padding-right: 10em;
+}
+
+.content-row > h1 {
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.contact-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: left;
+}
+
+.contact-list {
+    display: flex;
+    flex-direction: column;
+    width: 200px;
+}
+
+.contact-list > a {
+    padding-top: 5px;
+    padding-bottom: 5px;
+}
+
+#my-picture {
+    background-image: url('../imgs/evan.jpg');
+    background-position: center center;
+    background-size: cover;
+}
+
+#programming {
+    height: 100vh;
+    background-image: url('../imgs/computer.png');
+    background-position: center center;
+    background-size: cover;
+
+}
+
+.right {
+    float: left;
+}
+
+.left {
+    float: right;
+}
