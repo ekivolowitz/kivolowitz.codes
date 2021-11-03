@@ -14,34 +14,32 @@
   <meta property="og:type" content="website">
 
   <link rel="stylesheet" href="css/styles.css">
-
 </head>
 
 <body>
-  <header></header>
-  <nav></nav>
-  <section id="1" class="container">
+  <section id="home" class="container">
     <div id="my-picture"></div>
     <div class="content-section-start">
       <div class="right">
         <h1>Evan Kivolowitz</h1>
-        <div>
+        <div class="no-op">
           <h2>About</h2>
           <p>
             Hi, I'm Evan. I'm a software engineer by day, and a gamer and creator at night.
+            I graduated from University of Wisconsin Madison with a BS in Computer Science in 2019.
             I particularly enjoy applying design patterns while designing new features, which
             leads to clean implementations that are easy to integrate with, easy to maintain,
             and easy to understand.
           </p>
         </div>
-        <div>
+        <div class="no-op">
           <h2>Projects</h2>
           <div class="contact-container">
             <div class="contact-list">
               <a href="https://github.com/ekivolowitz/FuzzyMan" target="_blank">Fuzzyman</a>
               <a href="https://github.com/star-tides/kb" target="_blank">Star Tides</a>
             </div>
-  
+
             <div class="contact-list">
               <a href="https://github.com/ekivolowitz/MySpinClass" target="_blank">MySpinClass</a>
               <a href="https://github.com/ekivolowitz/notion-cli" target="_blank">NotionCli</a>
@@ -53,32 +51,24 @@
             <div class="contact-list fixed-height ">
               <h3>Design Patterns</h3>
               <!-- https://refactoring.guru/design-patterns/flyweight -->
-              <hr/>
-              <a href="#">Proxy Pattern</a>
-              <a href="#">Decorator Pattern</a>
-              <a href="#">Observer Pattern</a>
-              <a href="#">Adapter Pattern</a>
-              <a href="#">Singleton Pattern</a>
-              <a href="#">Factory Pattern</a>
+              <hr />
+              <a href="#proxy">Proxy Pattern</a>
             </div>
 
             <div class="contact-list">
               <h3>Python Features</h3>
-              <hr/>
-              <p>Dataclasses</p>
-              <p>Itertools</p>
-              <p>Threads</p>
-            </div>       
+              <hr />
+              <p><em><strong>Coming Soon!</strong></em></p>
+            </div>
           </div>
-  
-          <div>
+
+          <div class="no-op">
             <h2>Contact</h2>
             <div class="contact-container">
               <div class="contact-list">
                 <a href="https://www.linkedin.com/in/evan-kivolowitz/" target="_blank">LinkedIn</a>
-                <a href="mailto:evan@kivolowitz.com">Email</a>
               </div>
-  
+
               <div class="contact-list">
                 <a href="https://github.com/ekivolowitz" target="_blank">Github</a>
                 <a href="https://github.com/ekivolowitz/Resume" target="_blank">Resume</a>
@@ -86,24 +76,104 @@
             </div>
           </div>
         </div>
-            
+
       </div>
-      <h2 class="arrow"><a href="#2">&#128071;</a></h2>
+      <h2 class="arrow"><a href="#proxy">&#128071;</a></h2>
     </div>
   </section>
 
-  <section id="2" class="container">
+  <section id="proxy" class="container">
+    <!--             -->
     <div class="content-section-middle">
-      <div>
-        <h2 class="arrow"><a href="#1">&#128070;</a></h2>
-      </div>
-      <div>
+      <h2 class="arrow top"><a href="#home">&#128070;</a></h2>
+      <div class="right">
+        <h1 class="top">The Proxy Pattern</h1>
+        <div class="article">
+          <h2>About</h2>
+          <p>
+            The Proxy Pattern is a useful Structural Pattern that allows for a single consistent exposed
+            interface while allowing for differing results. With a Proxy, you create an interface that 
+            is common between proxies and the proxied classes, and then call the proxy classes invocation method
+            which will determine which proxied class to execute at runtime. This is best displayed with an example.
+          </p>
+          <p>
+            Say you have <code>Publisher</code> interface that has two methods: <code>publish</code> and <code>validate</code>.
+            Here is the <code>Publisher</code> interface implemented as an abstract base class in Python.
+          </p>
+          <pre>
+            from abc import ABC, abstractmethod
 
+            class Publisher(ABC):
+
+              @abstractmethod
+              def publish(self, payload, *args, **kwargs):
+                raise NotImplementedError
+              
+              @abstractmethod
+              def validate(self, payload, *args, **kwargs):
+                raise NotImplementedError
+          </pre>
+          <p>
+            The <code>Publisher</code> interface will have two children and a proxy in this example, however you can implement as many
+            children and proxies as you would like.
+          </p>
+          <pre>
+            class SlackPublisher(Publisher):
+              def publish(self, payload, *args, **kwargs):
+                channel = args[0]
+                slack.write(payload, channel=channel) # This is not a real implementation, I made this up for the example.
+              
+              def validate(self, payload, *args, **kwargs):
+                if len(args) == 0:
+                  return False
+                
+                return isinstance(payload, str)
+            
+            class SlackConsolePublisher(SlackPublisher):
+              def publish(self, payload, *args, **kwargs):
+                print(f"Payload: {payload} args: {args} kwargs: {kwargs}")
+                
+            class SlackPublisherProxy(Publisher):
+              def __init__(self):
+                self.api_key = os.environ.get('SLACK_API_KEY')
+
+                if self.api_key:
+                  slack.set_write_key(self.api_key)
+                  self.publisher = SlackPublisher()
+                else:
+                  self.publisher = SlackConsolePublisher()
+
+              def publish(self, payload, *args, **kwargs):
+                if self.publisher.validate(payload, *args, **kwargs):
+                  self.publisher.publish(payload, *args, **kwargs)
+                raise Exception('Invalid slack publisher')
+              
+              # Repeat for validate if you want to expose the validate method
+          </pre>
+          <p>
+            The proxy is the main point of interaction for any piece of code that wants to publish
+            to Slack because it will control whether or not to publish to Slack or STDOUT depending
+            on if a write key is present. This can be incredibly useful for separating between local
+            development, preprod, or production. In local and preprod you can omit the environment
+            variable with the write key and see the output in STDOUT, or you can add the key in temporarily
+            to test the connection. Regardless of what environment the code is running in, the interface or
+            its variables do not change which leads to clean consumption to the caller of the proxy. See below
+            as an example.
+          </p>
+          <pre>
+            from publishers import SlackPublisherProxy
+
+            SLACK_PUBLISHER = SlackPublisherProxy()
+
+            ...
+
+            SLACK_PUBLISHER.publish('this is a test event', 'test-channel')
+          </pre>
+        </div>
       </div>
-      <div>
-        <h2 class="arrow"><a href="#2">&#9995;</a></h2>
-      </div>
+      <h2 class="arrow top"><a href="#">&#9995;</a></h2>
     </div>
+
     <div id="programming"></div>
   </section>
 </body>

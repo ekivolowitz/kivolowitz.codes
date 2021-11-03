@@ -1,0 +1,1 @@
+aws s3 sync . s3://kivolowitz.codes/ --exclude '.git/*' --exclude 's3-sync.sh'

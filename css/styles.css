@@ -1,4 +1,5 @@
 @import url('variables.css');
+@import url('no-op.css');
 @import url("https://fonts.googleapis.com/css?family=Montserrat:400,600");
 
 
@@ -63,12 +64,22 @@ a:hover {
     color: var(--link-hover);
 }
 
+pre {
+    color: var(--header-font-color);
+}
+
 .arrow {
     text-align: center;
     padding-top: auto;
     padding-bottom: auto;
     font-size: 3em;
 }
+
+.top {
+    margin-top: 20px;
+    margin-bottom: 10px;
+}
+
 
 .container {
     display: grid;
@@ -85,6 +96,7 @@ a:hover {
     display: grid;
     grid-template-rows: 1fr 5fr 1fr;
     height: 100vh;
+    width: 50vw;
 }
 
 .contact-container {
@@ -118,6 +130,15 @@ a:hover {
 
 .left {
     float: right;
+    padding-left: 80px;
+    padding-right: 80px;
+}
+
+.article {
+    width: 40vw;
+    height: 70vh;
+    overflow-y: scroll;
+    scroll-behavior: auto;
 }
 
 #my-picture {
@@ -132,4 +153,57 @@ a:hover {
     background-image: url('../imgs/computer.png');
     background-position: center center;
     background-size: cover;
+}
+
+
+@media screen and (max-width: 1200px) {
+
+    html {
+        scroll-snap-type: y mandatory;
+        overflow-x: scroll;
+        scroll-behavior: smooth;
+    }
+
+    body {
+        width: 100vw;
+    }
+
+    #my-picture {
+        display: none;
+    }
+
+    #programming {
+        display: none;
+    }
+
+    .container {
+        width: 100%;
+    }
+
+    .fixed-height {
+        height: 100px;
+    }
+
+    h1 {
+        font-size: 2em;
+    }
+
+    .right {
+        padding-left: 10px;
+        padding-right: 10px;
+        width: 95vw;
+    }
+
+    .container {
+        display: grid;
+        grid-template-columns: 1fr;
+        height: 100vh;
+    }   
+    
+    .article {
+        width: 80vw;
+        height: 70vh;
+        overflow-y: scroll;
+        scroll-behavior: auto;
+    }
 }
